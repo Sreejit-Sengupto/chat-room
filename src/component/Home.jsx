@@ -235,7 +235,7 @@ const Home = () => {
                       : "text-lime-500 flex justify-start items-center"
                   }
                 >
-                  {item.username === user.name ? (
+                  {item.user_id === user.$id ? (
                     <span
                       className={
                         item.verified ? "text-yellow-500" : "text-black"
