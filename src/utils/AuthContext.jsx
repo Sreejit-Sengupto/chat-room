@@ -7,18 +7,21 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const toast = useToast();
-  const [loading, setLoading] = useState(true);
-  const [logoutSpinner, setLogoutSpinner] = useState(false);
-  const [loginSpinner, setLoginSpinner] = useState(false);
-  const [updateSpinner, setUpdateSpinner] = useState(false);
-  const [user, setUser] = useState(null);
-  console.log(user);
+
+  const [loading, setLoading] = useState(true); // State to show a loader when the app is loading (when the user data is not yet fetched).
+  const [logoutSpinner, setLogoutSpinner] = useState(false); // To show a spinner when processing logout
+  const [loginSpinner, setLoginSpinner] = useState(false); // To show a spinner when processing login
+  const [updateSpinner, setUpdateSpinner] = useState(false); // To show a spinner when updating user details
+  const [user, setUser] = useState(null); // State to store user information
+
   const navigate = useNavigate();
 
+  // Get user information as soon as the app loads
   useEffect(() => {
     getUser();
   }, []);
 
+  // Function to get user.
   const getUser = async () => {
     try {
       let user = await account.get();
@@ -26,9 +29,10 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.log(error);
     }
-    setLoading(false);
+    setLoading(false); // As soon as the user information is fetched, stop the loader
   };
 
+  // Create login
   const login = async (e, credentials) => {
     e.preventDefault();
     setLoginSpinner(true);
@@ -59,6 +63,7 @@ export const AuthProvider = ({ children }) => {
     setLoginSpinner(false);
   };
 
+  // Create logout
   const logout = async () => {
     setLogoutSpinner(true);
     const response = await account.deleteSession("current");
@@ -73,6 +78,7 @@ export const AuthProvider = ({ children }) => {
     });
   };
 
+  // Update user information
   const updateUsername = async (name) => {
     if (name == user.name) {
       toast({
@@ -168,6 +174,7 @@ export const AuthProvider = ({ children }) => {
       setUpdateSpinner(false);
     }
   };
+  //Update user information ends.
 
   const contextData = {
     user,
@@ -183,7 +190,7 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider value={contextData}>
       {loading ? (
-        <div className="h-screen w-full flex flex-col justify-center items-center">
+        <div className="h-[100dvh] lg:h-screen w-full flex flex-col justify-center items-center">
           <Spinner color="green.500" size={"xl"} />
         </div>
       ) : (
