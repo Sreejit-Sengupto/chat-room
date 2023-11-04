@@ -14,8 +14,14 @@ import { AiFillEdit } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
 import { useAuth } from "./AuthContext";
 
-const UpdateMessage = ({ db_id, collection_id, id, setMessage }) => {
-  const [newMessage, setNewMessage] = React.useState("");
+const UpdateMessage = ({
+  db_id,
+  collection_id,
+  id,
+  message,
+  setUpdateMessageId,
+}) => {
+  const [newMessage, setNewMessage] = React.useState(message);
 
   const handleChange = (event) => {
     setNewMessage(event.target.value);
@@ -28,7 +34,7 @@ const UpdateMessage = ({ db_id, collection_id, id, setMessage }) => {
       <button
         onClick={() => {
           onOpen();
-          setMessage(id);
+          setUpdateMessageId(id);
         }}
         className="text-gray-900 ml-auto w-4 text-lg bg-[#47b36b]"
       >

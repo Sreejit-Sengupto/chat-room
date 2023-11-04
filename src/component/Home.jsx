@@ -211,7 +211,7 @@ const Home = () => {
       <div className="flex justify-between items-center font-lexend sticky top-0 px-2 py-2 bg-[#0b0405]">
         <ProfileWindow />
         <p className="lg:w-80 cursor-default lg:text-2xl flex justify-center items-center text-[#f2dee1] text-center">
-          Chat-Room{" "}
+          Helping Group{" "}
           <span className="text-xs text-blue-700 font-mono ml-1 border border-blue-700 px-1 rounded-sm">
             on web
           </span>
@@ -308,7 +308,8 @@ const Home = () => {
                         db_id={db_id}
                         collection_id={collection_id}
                         id={item.$id}
-                        setMessage={setUpdateMessageId}
+                        message={item.message}
+                        setUpdateMessageId={setUpdateMessageId}
                       />
                     )}
                   </p>
