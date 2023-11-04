@@ -8,7 +8,7 @@ Fork (if you want to contribute) or Clone the project and then follow the steps 
 2. Create a new project
 3. Create a new database
 4. Create two collections (you can name them as messages and typing indicator)
-5. Inside your messages collection create four attributes - user_id, username, message(All of string type), verified(boolean defaults to false) (Attributes should be as it is as mentioned here). Give them a size of 250 and hit create.
+5. Inside your messages collection create four attributes - user_id, username, message(All of string type), verified(boolean defaults to false) (<span style="color:red;">Attributes should be as it is as mentioned here<span/>). Give them a size of 250 and hit create.
 6. Inside your typing indicator collection create three attributes - user_id, username,(of String types) isTyping(boolean defaults to false) (Attributes should be as it is as mentioned here). Give them a size of 250 and hit create.
 7. Come back to typing indicator collection and create a document, leave user_id and username attributes blank and set isTyping attribute to false.
 
