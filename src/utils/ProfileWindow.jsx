@@ -17,8 +17,15 @@ import UpdateWindow from "./UpdateWindow";
 
 const ProfileWindow = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user, updateUsername, updateEmail, updatePassword, updateSpinner } =
-    useAuth();
+  const {
+    user,
+    updateUsername,
+    updateEmail,
+    updatePassword,
+    updateSpinner,
+    avatar,
+  } = useAuth();
+  const avt = avatar(user.name);
   return (
     <>
       <Button
@@ -27,7 +34,8 @@ const ProfileWindow = () => {
         textColor={"white"}
         _hover={{ bg: "#0b0405" }}
       >
-        <CgProfile className="text-2xl mr-1 text-green-500" />
+        {/* <CgProfile className="text-2xl mr-1 text-green-500" /> */}
+        <img src={avt} alt={avt} className="w-8 rounded-full" />
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>

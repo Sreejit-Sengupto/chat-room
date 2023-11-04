@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect, useContext } from "react";
-import { account } from "../appwrite config/appwriteConfig";
+import { account, avatars, database } from "../appwrite config/appwriteConfig";
+import { Permission, Role } from "appwrite";
 import { useNavigate } from "react-router-dom";
 import { Spinner, useToast } from "@chakra-ui/react";
 
@@ -7,21 +8,19 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const toast = useToast();
-
-  const [loading, setLoading] = useState(true); // State to show a loader when the app is loading (when the user data is not yet fetched).
-  const [logoutSpinner, setLogoutSpinner] = useState(false); // To show a spinner when processing logout
-  const [loginSpinner, setLoginSpinner] = useState(false); // To show a spinner when processing login
-  const [updateSpinner, setUpdateSpinner] = useState(false); // To show a spinner when updating user details
-  const [user, setUser] = useState(null); // State to store user information
-
+  const [loading, setLoading] = useState(true);
+  const [logoutSpinner, setLogoutSpinner] = useState(false);
+  const [loginSpinner, setLoginSpinner] = useState(false);
+  const [updateSpinner, setUpdateSpinner] = useState(false);
+  const [deleteSpinner, setDeleteSpinner] = useState(false);
+  const [messageUpdateSpinner, setMessageUpdateSpinner] = useState(false);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  // Get user information as soon as the app loads
   useEffect(() => {
     getUser();
   }, []);
 
-  // Function to get user.
   const getUser = async () => {
     try {
       let user = await account.get();
@@ -29,10 +28,9 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.log(error);
     }
-    setLoading(false); // As soon as the user information is fetched, stop the loader
+    setLoading(false);
   };
 
-  // Create login
   const login = async (e, credentials) => {
     e.preventDefault();
     setLoginSpinner(true);
@@ -63,7 +61,6 @@ export const AuthProvider = ({ children }) => {
     setLoginSpinner(false);
   };
 
-  // Create logout
   const logout = async () => {
     setLogoutSpinner(true);
     const response = await account.deleteSession("current");
@@ -78,7 +75,6 @@ export const AuthProvider = ({ children }) => {
     });
   };
 
-  // Update user information
   const updateUsername = async (name) => {
     if (name == user.name) {
       toast({
@@ -174,7 +170,33 @@ export const AuthProvider = ({ children }) => {
       setUpdateSpinner(false);
     }
   };
-  //Update user information ends.
+
+  // Function to delete message
+  const deleteMessage = async (db_id, collection_id, id) => {
+    setDeleteSpinner(true);
+    await database.deleteDocument(db_id, collection_id, id);
+    setDeleteSpinner(false);
+  };
+
+  // Function to update message
+  const updateMessage = async (db_id, collection_id, id, newMessage) => {
+    setMessageUpdateSpinner(true);
+    const permissions = [Permission.write(Role.user(user.$id))];
+    await database.updateDocument(
+      db_id,
+      collection_id,
+      id,
+      {
+        message: newMessage,
+      },
+      permissions
+    );
+    setMessageUpdateSpinner(false);
+  };
+
+  const avatar = (username) => {
+    return avatars.getInitials(username);
+  };
 
   const contextData = {
     user,
@@ -186,6 +208,11 @@ export const AuthProvider = ({ children }) => {
     updateUsername,
     updatePassword,
     updateEmail,
+    deleteMessage,
+    deleteSpinner,
+    updateMessage,
+    messageUpdateSpinner,
+    avatar,
   };
   return (
     <AuthContext.Provider value={contextData}>

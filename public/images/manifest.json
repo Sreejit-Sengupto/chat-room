@@ -1,0 +1,32 @@
+{
+  "name": "HG",
+  "short_name": "HG",
+  "theme_color": "#0b0405",
+  "background_color": "#0b0405",
+  "display": "standalone",
+  "Scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/HG-2.svg",
+      "sizes": "512x512",
+      "type": "svg+xml"
+    },
+    {
+      "src": "/images/apple-touch-icon.png",
+      "sizes": "128x128",
+      "type": "svg+xml"
+    },
+    {
+      "src": "/images/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "images/png"
+    },
+    {
+      "src": "/images/android-chrome-512x512.png",
+      "sizes": "144x144",
+      "type": "images/png"
+    }
+  ],
+  "splash_pages": null
+}

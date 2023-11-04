@@ -14,7 +14,6 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "appwrite": "^13.0.0",
-    "emoji-mart": "^5.5.2",
     "emoji-picker-react": "^4.5.7",
     "framer-motion": "^10.16.4",
     "localforage": "^1.10.0",
@@ -24,7 +23,8 @@
     "react-icons": "^4.11.0",
     "react-router-dom": "^6.17.0",
     "react-scroll-to-bottom": "^4.2.0",
-    "sort-by": "^1.2.0"
+    "sort-by": "^1.2.0",
+    "vite-plugin-svgr": "^4.1.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
