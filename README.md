@@ -1,4 +1,6 @@
 # ChatRoom
+![image](https://github.com/Sreejit-Sengupto/chat-room/assets/69980616/8e8dbb1c-c6db-4fdb-87ec-1d55d6da7205)
+
 ChatRoom is a Web application powered by Appwrite and built with React. ChatRoom provides you with a single chat window where you can chat with your friends. All you need is just an Appwrite account and you are all set. The chats will be saved to your Appwrite account in your Appwrite database (yes you can talk about your secrets 🤫)
 
 # Installation
