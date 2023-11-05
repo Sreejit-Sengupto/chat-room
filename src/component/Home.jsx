@@ -16,13 +16,17 @@ import { AiFillDelete } from "react-icons/ai";
 import { IoSend } from "react-icons/io5";
 
 // ChakraUI components
-import { Img, Spinner } from "@chakra-ui/react";
+import { Spinner } from "@chakra-ui/react";
 import EmojiSelector from "../utils/EmojiSelector";
 import ShowPopUp from "../utils/ShowPopUp";
 import UpdateMessage from "../utils/UpdateMessage";
 
 const Home = () => {
   const bottomRef = useRef(null); // Ref to trigger automatic scroll when a new message is added/loaded.
+
+  React.useEffect(() => {
+    console.log("re-rendered");
+  }, []);
 
   // Secrets from .env file
   const db_id = import.meta.env.VITE_DATABASE_ID;
@@ -273,8 +277,8 @@ const Home = () => {
                 <div
                   className={
                     item.user_id !== user.$id
-                      ? "bg-[#0d1a21] text-[#f2dee1] w-[20rem] lg:w-[25rem] px-5 py-2 rounded-r-2xl rounded-bl-2xl"
-                      : "bg-[#47b36b] text-[#f2dee1] w-[20rem] lg:w-[25rem] px-5 py-2 rounded-l-2xl rounded-tr-2xl"
+                      ? "bg-[#0d1a21] text-[#f2dee1] w-fit min-w-[10rem] max-w-[15rem] lg:max-w-[20rem] px-5 py-2 rounded-r-2xl rounded-bl-2xl"
+                      : "bg-[#1b3012] text-[#f2dee1] w-fit min-w-[10rem] max-w-[15rem] lg:max-w-[20rem] px-5 py-2 rounded-l-2xl rounded-tr-2xl"
                   }
                 >
                   <p
@@ -287,7 +291,7 @@ const Home = () => {
                     {item.user_id === user.$id ? (
                       <span
                         className={
-                          item.verified ? "text-yellow-500" : "text-black"
+                          item.verified ? "text-yellow-500" : "text-white"
                         }
                       >
                         You
@@ -340,7 +344,7 @@ const Home = () => {
               alt={avatar(typingInfo.name)}
               className="w-8 rounded-full mr-2 mb-auto"
             />
-            <div className="bg-[#0d1a21] text-[#f2dee1] w-[20rem] px-5 py-2 rounded-r-2xl rounded-bl-2xl mr-auto my-3">
+            <div className="bg-[#0d1a21] text-[#f2dee1] w-[15rem] px-5 py-2 rounded-r-2xl rounded-bl-2xl mr-auto my-3">
               <p>{typingInfo.name}</p>
               <TypingIndicator />
             </div>

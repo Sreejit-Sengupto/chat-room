@@ -36,7 +36,7 @@ const UpdateMessage = ({
           onOpen();
           setUpdateMessageId(id);
         }}
-        className="text-gray-900 ml-auto w-4 text-lg bg-[#47b36b]"
+        className="text-gray-300 ml-auto w-4 text-lg bg-[#1b3012]"
       >
         <AiFillEdit />
       </button>
