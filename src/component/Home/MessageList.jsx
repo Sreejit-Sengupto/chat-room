@@ -5,12 +5,14 @@ import { Spinner } from "@chakra-ui/react";
 import { AiFillDelete } from "react-icons/ai";
 import { VscVerifiedFilled } from "react-icons/vsc";
 import UpdateMessage from "../../utils/UpdateMessage";
+import { storage } from "../../appwrite config/appwriteConfig";
 
 const MessageList = ({ messageList, db_id, collection_id }) => {
   const { user, avatar, deleteMessage, deleteSpinner, messageUpdateSpinner } =
     useAuth();
   const [singleMessageId, setSingleMessageId] = React.useState(""); // State to get id of a single message.
   const [updateMessageId, setUpdateMessageId] = React.useState(""); // State to get id of a message that is being updated.
+
   return (
     <div className="flex flex-col justify-center items-end w-full overflow-scroll">
       {messageList.map((item) => (
@@ -27,7 +29,10 @@ const MessageList = ({ messageList, db_id, collection_id }) => {
               className="text-red-500 mr-2 text-2xl"
               onClick={() => {
                 deleteMessage(db_id, collection_id, item.$id);
-                setSingleMessageId(item.$id); // As prop
+                if (item.fileId) {
+                  storage.deleteFile(import.meta.env.VITE_BUCKET_ID, item.fileId)
+                }
+                setSingleMessageId(item.$id); 
               }}
             >
               {deleteSpinner && item.$id == singleMessageId ? (
@@ -78,17 +83,23 @@ const MessageList = ({ messageList, db_id, collection_id }) => {
                     </small>
                   </span>
                 )}
-                {item.user_id == user.$id && (
+                {item.user_id == user.$id && !item.fileId && (
                   <UpdateMessage
-                    db_id={db_id} // As prop
-                    collection_id={collection_id} // As prop
+                    db_id={db_id}
+                    collection_id={collection_id}
                     id={item.$id}
                     message={item.message}
-                    setUpdateMessageId={setUpdateMessageId} // As prop
+                    setUpdateMessageId={setUpdateMessageId}
                   />
                 )}
               </p>
               <p className="lg:text-xl">
+                {item.fileId && (
+                  <img
+                    src={storage.getFileView(import.meta.env.VITE_BUCKET_ID, item.fileId).href}
+                    className="rounded-md"
+                  />
+                )}
                 {item.message}{" "}
                 {updateMessageId == item.$id && messageUpdateSpinner && (
                   <Spinner color="gray.800" />

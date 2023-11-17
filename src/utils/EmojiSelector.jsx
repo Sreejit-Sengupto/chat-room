@@ -16,10 +16,10 @@ const EmojiSelector = ({ setMessage }) => {
       <Button
         onClick={onOpen}
         bg={"transparent"}
-        textColor={"#3a9283"}
+        textColor={"white"}
         fontSize={"25px"}
-        marginLeft={"-20px"}
-        marginRight={"-4px"}
+        // marginLeft={"-20px"}
+        // marginRight={"-4px"}
         _hover={{ bg: "transparent" }}
       >
         <FaFaceSmile />

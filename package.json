@@ -16,6 +16,7 @@
     "@giphy/js-fetch-api": "^5.2.0",
     "@giphy/react-components": "^9.1.0",
     "appwrite": "^13.0.0",
+    "date-fns": "^2.30.0",
     "emoji-picker-react": "^4.5.7",
     "framer-motion": "^10.16.4",
     "localforage": "^1.10.0",

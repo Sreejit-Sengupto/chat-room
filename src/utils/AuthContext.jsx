@@ -5,7 +5,6 @@ import { account, avatars, database } from "../appwrite config/appwriteConfig";
 import { Permission, Role } from "appwrite";
 import { useNavigate } from "react-router-dom";
 import { Spinner, useToast } from "@chakra-ui/react";
-import { RiSignalWifiOffLine } from "react-icons/ri";
 
 const AuthContext = createContext();
 
@@ -55,7 +54,7 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.log(error);
       toast({
-        title: "Login failed! Please try again.",
+        title: error.message,
         position: "top-right",
         status: "error",
         isClosable: true,
@@ -100,7 +99,7 @@ export const AuthProvider = ({ children }) => {
         });
       } catch (error) {
         toast({
-          title: "Failed",
+          title: error.message,
           position: "top-right",
           status: "error",
           isClosable: true,
@@ -132,7 +131,7 @@ export const AuthProvider = ({ children }) => {
         });
       } catch (error) {
         toast({
-          title: "Failed",
+          title: error.message,
           position: "top-right",
           status: "error",
           isClosable: true,
@@ -164,7 +163,7 @@ export const AuthProvider = ({ children }) => {
         });
       } catch (error) {
         toast({
-          title: "Failed",
+          title: error.message,
           position: "top-right",
           status: "error",
           isClosable: true,
@@ -231,21 +230,19 @@ export const AuthProvider = ({ children }) => {
   });
   return (
     <AuthContext.Provider value={contextData}>
-      {online ? (
-        loading ? (
-          <div className="h-[100dvh] lg:h-screen w-full flex flex-col justify-center items-center">
-            <Spinner color="green.500" size={"xl"} />
-          </div>
-        ) : (
-          children
-        )
-      ) : (
-        <div className="h-[100dvh] lg:h-screen w-full flex flex-col justify-center items-center text-white text-3xl font-lexend">
-            <RiSignalWifiOffLine className="text-5xl text-red-600" />
-            <p className="">
-              You are <span className="text-red-500">Offline!</span>
-            </p>{" "}
+      {!online &&
+        toast({
+          title: "No internet",
+          position: "top",
+          status: "error",
+          isClosable: false,
+        })}
+      {loading ? (
+        <div className="h-[100dvh] lg:h-screen w-full flex flex-col justify-center items-center">
+          <Spinner color="green.500" size={"xl"} />
         </div>
+      ) : (
+        children
       )}
     </AuthContext.Provider>
   );
