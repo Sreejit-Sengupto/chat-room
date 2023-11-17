@@ -14,13 +14,7 @@ import { AiFillEdit } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
 import { useAuth } from "./AuthContext";
 
-const UpdateMessage = ({
-  db_id,
-  collection_id,
-  id,
-  message,
-  setUpdateMessageId,
-}) => {
+const UpdateMessage = ({ db_id, collection_id, id, message, setUpdateMessageId }) => {
   const [newMessage, setNewMessage] = React.useState(message);
 
   const handleChange = (event) => {

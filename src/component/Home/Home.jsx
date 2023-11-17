@@ -1,25 +1,23 @@
 import React, { useRef } from "react";
 
 // Appwrite
-import client, { database } from "../appwrite config/appwriteConfig";
+import client, { database } from "../../appwrite config/appwriteConfig";
 import { Query, Permission, Role, ID } from "appwrite";
 
 // From utils directory
-import { useAuth } from "../utils/AuthContext";
-import ProfileWindow from "../utils/ProfileWindow";
-import TypingIndicator from "../utils/TypingIndicator";
+import { useAuth } from "../../utils/AuthContext";
+import EmojiSelector from "../../utils/EmojiSelector";
 
 // React Icons
-import { FiLogOut } from "react-icons/fi";
-import { VscVerifiedFilled } from "react-icons/vsc";
-import { AiFillDelete } from "react-icons/ai";
 import { IoSend } from "react-icons/io5";
 
 // ChakraUI components
 import { Spinner } from "@chakra-ui/react";
-import EmojiSelector from "../utils/EmojiSelector";
-import ShowPopUp from "../utils/ShowPopUp";
-import UpdateMessage from "../utils/UpdateMessage";
+import HeadPanel from "./HeadPanel";
+import MessageList from "./MessageList";
+import TypingInfo from "./TypingInfo";
+
+// import GIFSection from "./GIFSection";
 
 const Home = () => {
   const bottomRef = useRef(null); // Ref to trigger automatic scroll when a new message is added/loaded.
@@ -38,8 +36,6 @@ const Home = () => {
   const [messageList, setMessageList] = React.useState([]); // State to store all the message fetched from the database.
   const [loading, setLoading] = React.useState(false); // Loading state to trigger spinners
   const [typing, setTyping] = React.useState(false); // State to get typing status of the user
-  const [singleMessageId, setSingleMessageId] = React.useState(""); // State to get id of a single message.
-  const [updateMessageId, setUpdateMessageId] = React.useState(""); // State to get id of a message that is being updated.
 
   // State to store details of currently typing user
   const [typingInfo, setTypingInfo] = React.useState({
@@ -48,15 +44,7 @@ const Home = () => {
     typing: false,
   });
 
-  const {
-    user,
-    logout,
-    deleteMessage,
-    logoutSpinner,
-    deleteSpinner,
-    messageUpdateSpinner,
-    avatar,
-  } = useAuth(); // Datas from AuthContext.
+  const { user } = useAuth(); // Datas from AuthContext.
 
   // Verification Badge
   const [verified, setVerified] = React.useState(false);
@@ -141,7 +129,7 @@ const Home = () => {
       username: user.name,
       isTyping: typing,
     };
-    const response = await database.updateDocument(
+    await database.updateDocument(
       db_id,
       typing_collection_id,
       typing_doc_id,
@@ -198,7 +186,7 @@ const Home = () => {
       verified: verified,
     };
 
-    const response = await database.createDocument(
+    await database.createDocument(
       db_id,
       collection_id,
       ID.unique(),
@@ -211,147 +199,28 @@ const Home = () => {
 
   return (
     <>
-      <ShowPopUp />
-      <div className="flex justify-between items-center font-lexend sticky top-0 px-2 py-2 bg-[#0b0405]">
-        <ProfileWindow />
-        <p className="lg:w-80 cursor-default lg:text-2xl flex justify-center items-center text-[#f2dee1] text-center">
-          Chat Room{" "}
-          <span className="text-xs text-blue-700 font-mono ml-1 border border-blue-700 px-1 rounded-sm">
-            on web
-          </span>
-        </p>
-        <button
-          className="text-red-600"
-          onClick={() => {
-            logout();
-          }}
-        >
-          <div className="flex justify-center items-center">
-            {logoutSpinner ? (
-              <Spinner color="red.500" />
-            ) : (
-              <>
-                <span className="mr-1">Logout</span>
-                <FiLogOut className="font-bold" />
-              </>
-            )}
-          </div>
-        </button>
-      </div>
+      {/* <ShowPopUp /> */}
+
+      <HeadPanel />
+
       <div className="w-full flex flex-col justify-end items-center p-5 font-lexend">
-        <div className="flex flex-col justify-center items-end w-full overflow-scroll">
-          {messageList.map((item) => (
-            <div
-              key={item.$id}
-              className={
-                item.user_id !== user.$id
-                  ? "mr-auto my-3 flex justify-center items-center"
-                  : "my-3 mr-2 flex justify-center items-center"
-              }
-            >
-              {item.user_id == user.$id && (
-                <button
-                  className="text-red-500 mr-2 text-2xl"
-                  onClick={() => {
-                    deleteMessage(db_id, collection_id, item.$id);
-                    setSingleMessageId(item.$id);
-                  }}
-                >
-                  {deleteSpinner && item.$id == singleMessageId ? (
-                    <Spinner color="red.500" />
-                  ) : (
-                    <AiFillDelete />
-                  )}
-                </button>
-              )}
+        {/* Message List */}
+        <MessageList
+          messageList={messageList}
+          db_id={db_id}
+          collection_id={collection_id}
+        />
 
-              {item.user_id != user.$id && (
-                <img
-                  src={avatar(item.username)}
-                  alt={avatar(item.username)}
-                  className="w-8 rounded-full mr-2 mb-auto"
-                />
-              )}
-
-              <div>
-                <div
-                  className={
-                    item.user_id !== user.$id
-                      ? "bg-[#0d1a21] text-[#f2dee1] w-fit min-w-[10rem] max-w-[15rem] lg:max-w-[20rem] px-5 py-2 rounded-r-2xl rounded-bl-2xl"
-                      : "bg-[#1b3012] text-[#f2dee1] w-fit min-w-[10rem] max-w-[15rem] lg:max-w-[20rem] px-5 py-2 rounded-l-2xl rounded-tr-2xl"
-                  }
-                >
-                  <p
-                    className={
-                      item.verified
-                        ? "text-yellow-500 flex justify-start items-center"
-                        : "text-lime-500 flex justify-start items-center"
-                    }
-                  >
-                    {item.user_id === user.$id ? (
-                      <span
-                        className={
-                          item.verified ? "text-yellow-500" : "text-white"
-                        }
-                      >
-                        You
-                      </span>
-                    ) : (
-                      item.username
-                    )}
-                    {item.verified && (
-                      <span className="flex justify-center items-center ml-1">
-                        <VscVerifiedFilled className="text-[#1DCAFF] text-md" />
-                        <small className="text-[10px] ml-1 text-gray-400">
-                          HG-OG
-                        </small>
-                      </span>
-                    )}
-                    {item.user_id == user.$id && (
-                      <UpdateMessage
-                        db_id={db_id}
-                        collection_id={collection_id}
-                        id={item.$id}
-                        message={item.message}
-                        setUpdateMessageId={setUpdateMessageId}
-                      />
-                    )}
-                  </p>
-                  <p className="lg:text-xl">
-                    {item.message}{" "}
-                    {updateMessageId == item.$id && messageUpdateSpinner && (
-                      <Spinner color="gray.800" />
-                    )}
-                  </p>
-                </div>
-                <p
-                  className={
-                    item.user_id != user.$id
-                      ? "text-xs flex justify-start items-center text-gray-500"
-                      : "text-xs flex justify-end items-center text-gray-500"
-                  }
-                >
-                  {new Date(item.$createdAt).toLocaleString()}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
         {typingInfo.typing && typingInfo.id != user.$id && (
-          <div className="flex justify-start items-center mr-auto">
-            <img
-              src={avatar(typingInfo.name)}
-              alt={avatar(typingInfo.name)}
-              className="w-8 rounded-full mr-2 mb-auto"
-            />
-            <div className="bg-[#0d1a21] text-[#f2dee1] w-[15rem] px-5 py-2 rounded-r-2xl rounded-bl-2xl mr-auto my-3">
-              <p>{typingInfo.name}</p>
-              <TypingIndicator />
-            </div>
-          </div>
+          <TypingInfo typingInfo={typingInfo} />
         )}
+
         <div className="mb-20"></div>
         <div ref={bottomRef} />
+
+        {/* <GIFSection /> */}
+
+        {/* Input section */}
         <div className="w-[90%] fixed bottom-4 flex justify-center items-center">
           <div>
             <EmojiSelector setMessage={setMessage} />
@@ -378,6 +247,7 @@ const Home = () => {
             {loading ? <Spinner color="gray.700" /> : <IoSend />}
           </button>
         </div>
+        {/* Input section */}
       </div>
     </>
   );

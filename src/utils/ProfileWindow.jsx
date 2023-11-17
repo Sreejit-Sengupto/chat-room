@@ -11,9 +11,12 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { CgProfile } from "react-icons/cg";
+import { AiOutlineStar } from "react-icons/ai";
+import { AiFillGithub } from "react-icons/ai";
 import { VscVerifiedFilled } from "react-icons/vsc";
 import { useAuth } from "./AuthContext";
 import UpdateWindow from "./UpdateWindow";
+import { Link } from "react-router-dom";
 
 const ProfileWindow = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -34,7 +37,6 @@ const ProfileWindow = () => {
         textColor={"white"}
         _hover={{ bg: "#0b0405" }}
       >
-        {/* <CgProfile className="text-2xl mr-1 text-green-500" /> */}
         <img src={avt} alt={avt} className="w-8 rounded-full" />
       </Button>
 
@@ -67,11 +69,9 @@ const ProfileWindow = () => {
             alignItems={"center"}
             width={"full"}
           >
-            {/* <Lorem count={2} /> */}
             <p className="text-black p-3 rounded-l-lg text-center bg-white w-[70%]">
               <span className="text-red-600">Username: </span> {user.name}
             </p>
-            {/* <button className="bg-gray-700 px-3 py-4 text-xl rounded-r-lg"><FiEdit2 /></button> */}
             <UpdateWindow type={"Username"} handleClick={updateUsername} />
           </ModalBody>
 
@@ -88,11 +88,16 @@ const ProfileWindow = () => {
             <UpdateWindow type={"Email"} handleClick={updateEmail} />
           </ModalBody>
 
-          <ModalFooter>
-            {/* <Button colorScheme="red" margin={"auto"} textColor={"white"} >
-              Change password
-            </Button> */}
+          <ModalFooter
+            display={"flex"}
+            flexDirection={"column"}
+            justifyContent={"center"}
+            alignItems={"center"}
+          >
             <UpdateWindow type={"Password"} handleClick={updatePassword} />
+              <Link to={"https://github.com/Sreejit-Sengupto/chat-room"} target="_blank" className="flex justify-center items-center mt-2">
+                <AiOutlineStar className="mr-1 text-lg"/> Star the project on GitHub <AiFillGithub className="ml-1 text-xl" />
+              </Link>
           </ModalFooter>
         </ModalContent>
       </Modal>

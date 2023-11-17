@@ -1,6 +1,4 @@
 # ChatRoom
-![image](https://github.com/Sreejit-Sengupto/chat-room/assets/69980616/8e8dbb1c-c6db-4fdb-87ec-1d55d6da7205)
-
 ChatRoom is a Web application powered by Appwrite and built with React. ChatRoom provides you with a single chat window where you can chat with your friends. All you need is just an Appwrite account and you are all set. The chats will be saved to your Appwrite account in your Appwrite database (yes you can talk about your secrets 🤫)
 
 # Installation
@@ -10,7 +8,7 @@ Fork (if you want to contribute) or Clone the project and then follow the steps 
 2. Create a new project
 3. Create a new database
 4. Create two collections (you can name them as messages and typing indicator)
-5. Inside your messages collection create four attributes - user_id, username, message(All of string type), verified(boolean defaults to false) (<span style="color:red;">Attributes should be as it is as mentioned here<span/>). Give them a size of 250 and hit create.
+5. Inside your messages collection create three attributes - user_id, username, message(All of string type) (Attributes should be as it is as mentioned here). Give them a size of 250 and hit create.
 6. Inside your typing indicator collection create three attributes - user_id, username,(of String types) isTyping(boolean defaults to false) (Attributes should be as it is as mentioned here). Give them a size of 250 and hit create.
 7. Come back to typing indicator collection and create a document, leave user_id and username attributes blank and set isTyping attribute to false.
 
@@ -25,10 +23,10 @@ VITE_PROJECT_ID=<YOUR VITE PROJECT ID>
 ```
 2. `npm install` to install required dependencies. (You need NodeJS for this, install if you haven't)
 3. `npm run dev` to run the app in you local host.
-4. Go to your Appwrite and in the Auth section add your friends, ask them for their Email IDs and create a password of your chosen (later they can change it within the app).
 5. Deploy it to a provider(Netlify, Vercel, etc.) of your chosen and share with your friends.
-6. Give them their login credentials and to login to the ChatRoom.
-7. Yippee! All set. Now you can chat peacefully.
+6. Go to your Appwrite and in the Auth section add your friends, ask them for their Email IDs and create a password of your chosen (later they can change it within the app).
+7. Give them their login credentials and to login to the ChatRoom.
+8. Yippee! All set. Now you can chat peacefully.
 
 # Contributions
 The app is open for contributions either improve the UI, optimise the code or add a cool feature. It's upto you!

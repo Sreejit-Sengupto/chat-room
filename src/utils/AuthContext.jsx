@@ -1,8 +1,11 @@
+/* eslint-disable react/prop-types */
+import React from "react";
 import { createContext, useState, useEffect, useContext } from "react";
 import { account, avatars, database } from "../appwrite config/appwriteConfig";
 import { Permission, Role } from "appwrite";
 import { useNavigate } from "react-router-dom";
 import { Spinner, useToast } from "@chakra-ui/react";
+import { RiSignalWifiOffLine } from "react-icons/ri";
 
 const AuthContext = createContext();
 
@@ -86,7 +89,7 @@ export const AuthProvider = ({ children }) => {
     } else {
       setUpdateSpinner(true);
       try {
-        const response = await account.updateName(name);
+        await account.updateName(name);
         let updatedDetails = await account.get();
         setUser(updatedDetails);
         toast({
@@ -118,7 +121,7 @@ export const AuthProvider = ({ children }) => {
     } else {
       setUpdateSpinner(true);
       try {
-        const response = await account.updateEmail(email, password);
+        await account.updateEmail(email, password);
         let updatedDetails = await account.get();
         setUser(updatedDetails);
         toast({
@@ -150,7 +153,7 @@ export const AuthProvider = ({ children }) => {
     } else {
       setUpdateSpinner(true);
       try {
-        const response = await account.updatePassword(newPassword, password);
+        await account.updatePassword(newPassword, password);
         let updatedDetails = await account.get();
         setUser(updatedDetails);
         toast({
@@ -214,14 +217,35 @@ export const AuthProvider = ({ children }) => {
     messageUpdateSpinner,
     avatar,
   };
+
+  // Check for internet connection
+  const [online, setOnline] = React.useState(true);
+  React.useEffect(() => {
+    setOnline(navigator.onLine);
+  }, []);
+  window.addEventListener("online", () => {
+    setOnline(true);
+  });
+  window.addEventListener("offline", () => {
+    setOnline(false);
+  });
   return (
     <AuthContext.Provider value={contextData}>
-      {loading ? (
-        <div className="h-[100dvh] lg:h-screen w-full flex flex-col justify-center items-center">
-          <Spinner color="green.500" size={"xl"} />
-        </div>
+      {online ? (
+        loading ? (
+          <div className="h-[100dvh] lg:h-screen w-full flex flex-col justify-center items-center">
+            <Spinner color="green.500" size={"xl"} />
+          </div>
+        ) : (
+          children
+        )
       ) : (
-        children
+        <div className="h-[100dvh] lg:h-screen w-full flex flex-col justify-center items-center text-white text-3xl font-lexend">
+            <RiSignalWifiOffLine className="text-5xl text-red-600" />
+            <p className="">
+              You are <span className="text-red-500">Offline!</span>
+            </p>{" "}
+        </div>
       )}
     </AuthContext.Provider>
   );

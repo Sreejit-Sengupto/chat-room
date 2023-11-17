@@ -1,4 +1,4 @@
-import { Account, Client, Databases, Avatars } from "appwrite";
+import { Account, Client, Databases, Avatars, Storage } from "appwrite";
 const client = new Client();
 
 client
@@ -8,5 +8,8 @@ client
 export const account = new Account(client);
 export const database = new Databases(client);
 export const avatars = new Avatars(client);
+export const storage = new Storage(client);
+
+console.log(storage.getFilePreview('65473d82db1903b4e0ba','65473e26dc92605c56a7'));
 
 export default client;
