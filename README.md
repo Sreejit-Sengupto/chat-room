@@ -10,7 +10,8 @@ Fork (if you want to contribute) or Clone the project and then follow the steps 
 4. Create two collections (you can name them as messages and typing indicator)
 5. Inside your messages collection create three attributes - user_id, username, message(All of string type) (Attributes should be as it is as mentioned here). Give them a size of 250 and hit create.
 6. Inside your typing indicator collection create three attributes - user_id, username,(of String types) isTyping(boolean defaults to false) (Attributes should be as it is as mentioned here). Give them a size of 250 and hit create.
-7. Come back to typing indicator collection and create a document, leave user_id and username attributes blank and set isTyping attribute to false.
+7. Go to storage and create a new bucket and get the Bucket ID.
+8. Come back to typing indicator collection and create a document, leave user_id and username attributes blank and set isTyping attribute to false.
 
 ### Setting up the App
 1. Create a .env file at the root of the project and paste the following code -
@@ -20,6 +21,7 @@ VITE_MESSAGE_COLLECTION_ID=<COLLECTION ID OF THE MESSAGE COLLECTION IN YOUR DATA
 VITE_TYPING_COLLECTION_ID=<COLLECTION ID OF THE TYPING-INDICATOR COLLECTION IN YOUR DATABASE>
 VITE_TYPING_COLLECTION_DOCUMENT_ID=<DOCUMENT ID OF THE DOCUMENT INSIDE TYPING-INDICATOR COLLECTION>
 VITE_PROJECT_ID=<YOUR VITE PROJECT ID>
+VITE_BUCKET_ID=<YOUR BUCKET ID>
 ```
 2. `npm install` to install required dependencies. (You need NodeJS for this, install if you haven't)
 3. `npm run dev` to run the app in you local host.
