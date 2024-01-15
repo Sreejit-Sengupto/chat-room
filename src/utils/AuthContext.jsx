@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
-import React from "react";
-import { createContext, useState, useEffect, useContext } from "react";
-import { account, avatars, database } from "../appwrite config/appwriteConfig";
-import { Permission, Role } from "appwrite";
-import { useNavigate } from "react-router-dom";
-import { Spinner, useToast } from "@chakra-ui/react";
+import React from 'react';
+import { createContext, useState, useEffect, useContext } from 'react';
+import { account, avatars, database } from '../appwrite config/appwriteConfig';
+import { Permission, Role } from 'appwrite';
+import { useNavigate } from 'react-router-dom';
+import { Spinner, useToast } from '@chakra-ui/react';
 
 const AuthContext = createContext();
 
@@ -45,18 +45,18 @@ export const AuthProvider = ({ children }) => {
       let userDetails = await account.get();
       setUser(userDetails);
       toast({
-        title: "Signed in successfully!",
-        position: "top-right",
-        status: "success",
+        title: 'Signed in successfully!',
+        position: 'top-right',
+        status: 'success',
         isClosable: true,
       });
-      navigate("/");
+      navigate('/');
     } catch (error) {
       console.log(error);
       toast({
         title: error.message,
-        position: "top-right",
-        status: "error",
+        position: 'top-right',
+        status: 'error',
         isClosable: true,
       });
     }
@@ -65,14 +65,14 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     setLogoutSpinner(true);
-    const response = await account.deleteSession("current");
+    const response = await account.deleteSession('current');
     console.log(response);
     setUser(null);
     setLogoutSpinner(false);
     toast({
-      title: "Logged out",
-      position: "top-right",
-      status: "success",
+      title: 'Logged out',
+      position: 'top-right',
+      status: 'success',
       isClosable: true,
     });
   };
@@ -80,9 +80,9 @@ export const AuthProvider = ({ children }) => {
   const updateUsername = async (name) => {
     if (name == user.name) {
       toast({
-        title: "Username cannot be the same",
-        position: "top-right",
-        status: "warning",
+        title: 'Username cannot be the same',
+        position: 'top-right',
+        status: 'warning',
         isClosable: true,
       });
     } else {
@@ -92,16 +92,16 @@ export const AuthProvider = ({ children }) => {
         let updatedDetails = await account.get();
         setUser(updatedDetails);
         toast({
-          title: "Username updated successfully",
-          position: "top-right",
-          status: "success",
+          title: 'Username updated successfully',
+          position: 'top-right',
+          status: 'success',
           isClosable: true,
         });
       } catch (error) {
         toast({
           title: error.message,
-          position: "top-right",
-          status: "error",
+          position: 'top-right',
+          status: 'error',
           isClosable: true,
         });
       }
@@ -112,9 +112,9 @@ export const AuthProvider = ({ children }) => {
   const updateEmail = async (email, password) => {
     if (email == user.email) {
       toast({
-        title: "Email cannot be the same",
-        position: "top-right",
-        status: "warning",
+        title: 'Email cannot be the same',
+        position: 'top-right',
+        status: 'warning',
         isClosable: true,
       });
     } else {
@@ -124,16 +124,16 @@ export const AuthProvider = ({ children }) => {
         let updatedDetails = await account.get();
         setUser(updatedDetails);
         toast({
-          title: "Email updated successfully",
-          position: "top-right",
-          status: "success",
+          title: 'Email updated successfully',
+          position: 'top-right',
+          status: 'success',
           isClosable: true,
         });
       } catch (error) {
         toast({
           title: error.message,
-          position: "top-right",
-          status: "error",
+          position: 'top-right',
+          status: 'error',
           isClosable: true,
         });
       }
@@ -144,9 +144,9 @@ export const AuthProvider = ({ children }) => {
   const updatePassword = async (password, newPassword) => {
     if (password == newPassword) {
       toast({
-        title: "Old password and new password cannot be the same",
-        position: "top-right",
-        status: "warning",
+        title: 'Old password and new password cannot be the same',
+        position: 'top-right',
+        status: 'warning',
         isClosable: true,
       });
     } else {
@@ -156,16 +156,16 @@ export const AuthProvider = ({ children }) => {
         let updatedDetails = await account.get();
         setUser(updatedDetails);
         toast({
-          title: "Password updated successfully",
-          position: "top-right",
-          status: "success",
+          title: 'Password updated successfully',
+          position: 'top-right',
+          status: 'success',
           isClosable: true,
         });
       } catch (error) {
         toast({
           title: error.message,
-          position: "top-right",
-          status: "error",
+          position: 'top-right',
+          status: 'error',
           isClosable: true,
         });
       }
@@ -222,24 +222,24 @@ export const AuthProvider = ({ children }) => {
   React.useEffect(() => {
     setOnline(navigator.onLine);
   }, []);
-  window.addEventListener("online", () => {
+  window.addEventListener('online', () => {
     setOnline(true);
   });
-  window.addEventListener("offline", () => {
+  window.addEventListener('offline', () => {
     setOnline(false);
   });
   return (
     <AuthContext.Provider value={contextData}>
       {!online &&
         toast({
-          title: "No internet",
-          position: "top",
-          status: "error",
+          title: 'No internet',
+          position: 'top',
+          status: 'error',
           isClosable: false,
         })}
       {loading ? (
         <div className="h-[100dvh] lg:h-screen w-full flex flex-col justify-center items-center">
-          <Spinner color="green.500" size={"xl"} />
+          <Spinner color="green.500" size={'xl'} />
         </div>
       ) : (
         children

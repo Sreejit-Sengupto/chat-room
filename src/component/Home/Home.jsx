@@ -1,29 +1,32 @@
-import React, { useRef } from "react";
+import React, { useRef } from 'react';
 
 // Appwrite
 import client, {
   database,
   storage,
-} from "../../appwrite config/appwriteConfig";
-import { Query, Permission, Role, ID } from "appwrite";
+} from '../../appwrite config/appwriteConfig';
+import { Query, Permission, Role, ID } from 'appwrite';
 
 // From utils directory
-import { useAuth } from "../../utils/AuthContext";
-import EmojiSelector from "../../utils/EmojiSelector";
+import { useAuth } from '../../utils/AuthContext';
+import EmojiSelector from '../../utils/EmojiSelector';
 
 // React Icons
-import { IoSend } from "react-icons/io5";
-import { MdAddPhotoAlternate } from "react-icons/md";
-import { AiOutlineClose } from "react-icons/ai";
+import { IoSend } from 'react-icons/io5';
+import { MdAddPhotoAlternate } from 'react-icons/md';
+import { AiOutlineClose } from 'react-icons/ai';
 
 // ChakraUI components
-import { Spinner } from "@chakra-ui/react";
-import HeadPanel from "./HeadPanel";
-import MessageList from "./MessageList";
-import TypingInfo from "./TypingInfo";
-import { notify } from "../../../functions/notification";
+import { Spinner } from '@chakra-ui/react';
+
+// Components
+import HeadPanel from './HeadPanel';
+import MessageList from './MessageList';
+import TypingInfo from './TypingInfo';
+import { notify } from '../../../functions/notification';
 
 // import GIFSection from "./GIFSection";
+// TODO: Add GIF support
 
 const Home = () => {
   const bottomRef = useRef(null); // Ref to trigger automatic scroll when a new message is added/loaded.
@@ -35,7 +38,7 @@ const Home = () => {
   const typing_doc_id = import.meta.env.VITE_TYPING_COLLECTION_DOCUMENT_ID;
   const bucket_id = import.meta.env.VITE_BUCKET_ID;
 
-  const [message, setMessage] = React.useState(""); // State to manage message typed into the input box.
+  const [message, setMessage] = React.useState(''); // State to manage message typed into the input box.
   const [messageList, setMessageList] = React.useState([]); // State to store all the message fetched from the database.
   const [loading, setLoading] = React.useState(false); // Loading state to trigger spinners
   const [typing, setTyping] = React.useState(false); // State to get typing status of the user
@@ -47,8 +50,8 @@ const Home = () => {
 
   // State to store details of currently typing user
   const [typingInfo, setTypingInfo] = React.useState({
-    name: "",
-    id: "",
+    name: '',
+    id: '',
     typing: false,
   });
 
@@ -57,14 +60,14 @@ const Home = () => {
   // Verification Badge
   const [verified, setVerified] = React.useState(false);
   React.useEffect(() => {
-    if (user.labels[0] == "verified") {
+    if (user.labels[0] == 'verified') {
       setVerified(true);
     }
   }, []);
 
   // Scroll to bottom every time messages change or when someone is typing
   React.useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messageList, typingInfo]);
 
   // Gets all the messages from the database and checks for realtime changes in the database and updates the messageList accordingly.
@@ -77,20 +80,22 @@ const Home = () => {
       (response) => {
         if (
           response.events.includes(
-            "databases.*.collections.*.documents.*.create"
+            'databases.*.collections.*.documents.*.create'
           )
         ) {
-          console.log("A MESSAGE WAS CREATED");
+          console.log('A MESSAGE WAS CREATED');
           setMessageList((prevState) => [...prevState, response.payload]);
-          {response.payload.user_id != user.$id && notify(response.payload)}
+          {
+            response.payload.user_id != user.$id && notify(response.payload);
+          }
         }
 
         if (
           response.events.includes(
-            "databases.*.collections.*.documents.*.delete"
+            'databases.*.collections.*.documents.*.delete'
           )
         ) {
-          console.log("A MESSAGE WAS DELETED!!!");
+          console.log('A MESSAGE WAS DELETED!!!');
           setMessageList((prevState) =>
             prevState.filter(
               (messageList) => messageList.$id !== response.payload.$id
@@ -99,17 +104,17 @@ const Home = () => {
         }
         if (
           response.events.includes(
-            "databases.*.collections.*.documents.*.update"
+            'databases.*.collections.*.documents.*.update'
           )
         ) {
-          console.log("A MESSAGE WAS UPDATED!!!");
+          console.log('A MESSAGE WAS UPDATED!!!');
           getMessages();
         }
       }
     );
 
     // Cleanup function
-    console.log("unsubscribe:", unsubscribe);
+    console.log('unsubscribe:', unsubscribe);
     setLoading(false);
     return () => {
       unsubscribe();
@@ -154,10 +159,10 @@ const Home = () => {
       (response) => {
         if (
           response.events.includes(
-            "databases.*.collections.*.documents.*.update"
+            'databases.*.collections.*.documents.*.update'
           )
         ) {
-          console.log("Someone is typing");
+          console.log('Someone is typing');
           // Set the typing info with the currently typing user
           setTypingInfo({
             name: response.payload.username,
@@ -176,7 +181,7 @@ const Home = () => {
     const checkFile = client.subscribe(
       `buckets.${bucket_id}.files`,
       (response) => {
-        if (response.events.includes("buckets.*.files.*.create")) {
+        if (response.events.includes('buckets.*.files.*.create')) {
           console.log(response);
         }
       }
@@ -188,22 +193,22 @@ const Home = () => {
 
   // Upload a file
   const upload = async (e) => {
-    setLoading(true)
+    setLoading(true);
     await storage
       .createFile(
         bucket_id,
         ID.unique(),
-        document.getElementById("uploader").files[0]
+        document.getElementById('uploader').files[0]
       )
       .then((res) => sendMessage(e, res.$id));
     setImg(null);
-    setLoading(false)
+    setLoading(false);
   };
 
   // Function to get messages from the database
   const getMessages = async () => {
     const response = await database.listDocuments(db_id, collection_id, [
-      Query.orderAsc("$createdAt"),
+      Query.orderAsc('$createdAt'),
       Query.limit(10000),
     ]);
     setMessageList(response.documents);
@@ -231,12 +236,12 @@ const Home = () => {
       payload,
       permissions
     );
-    setMessage("");
+    setMessage('');
     setLoading(false);
     // setFileId('');
   };
 
-  const [img, setImg] = React.useState("");
+  const [img, setImg] = React.useState('');
   const handleImgUpload = (e) => {
     console.log(e.target.files);
     setImg(URL.createObjectURL(e.target.files[0]));
@@ -309,7 +314,7 @@ const Home = () => {
               value={message}
               onChange={handleChange}
               onKeyDown={(event) => {
-                if (event.key === "Enter") {
+                if (event.key === 'Enter') {
                   sendMessage(event);
                 }
               }}
@@ -336,7 +341,7 @@ const Home = () => {
             <label htmlFor="uploader">
               <MdAddPhotoAlternate
                 color="white"
-                size={"30px"}
+                size={'30px'}
                 className="mx-3"
               />
             </label>

@@ -1,8 +1,8 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./component/Home/Home";
-import Form from "./component/Form";
-import PrivateRoute from "./utils/PrivateRoute";
-import { AuthProvider } from "./utils/AuthContext";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './component/Home/Home';
+import Form from './component/Form';
+import PrivateRoute from './utils/PrivateRoute';
+import { AuthProvider } from './utils/AuthContext';
 
 function App() {
   return (

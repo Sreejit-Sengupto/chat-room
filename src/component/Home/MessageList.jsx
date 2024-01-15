@@ -1,17 +1,17 @@
 /* eslint-disable react/prop-types */
-import React from "react";
-import { useAuth } from "../../utils/AuthContext";
-import { Spinner } from "@chakra-ui/react";
-import { AiFillDelete } from "react-icons/ai";
-import { VscVerifiedFilled } from "react-icons/vsc";
-import UpdateMessage from "../../utils/UpdateMessage";
-import { storage } from "../../appwrite config/appwriteConfig";
+import React from 'react';
+import { useAuth } from '../../utils/AuthContext';
+import { Spinner } from '@chakra-ui/react';
+import { AiFillDelete } from 'react-icons/ai';
+import { VscVerifiedFilled } from 'react-icons/vsc';
+import UpdateMessage from '../../utils/UpdateMessage';
+import { storage } from '../../appwrite config/appwriteConfig';
 
 const MessageList = ({ messageList, db_id, collection_id }) => {
   const { user, avatar, deleteMessage, deleteSpinner, messageUpdateSpinner } =
     useAuth();
-  const [singleMessageId, setSingleMessageId] = React.useState(""); // State to get id of a single message.
-  const [updateMessageId, setUpdateMessageId] = React.useState(""); // State to get id of a message that is being updated.
+  const [singleMessageId, setSingleMessageId] = React.useState(''); // State to get id of a single message.
+  const [updateMessageId, setUpdateMessageId] = React.useState(''); // State to get id of a message that is being updated.
 
   return (
     <div className="flex flex-col justify-center items-end w-full overflow-scroll">
@@ -20,8 +20,8 @@ const MessageList = ({ messageList, db_id, collection_id }) => {
           key={item.$id}
           className={
             item.user_id !== user.$id
-              ? "mr-auto my-3 flex justify-center items-center"
-              : "my-3 mr-2 flex justify-center items-center"
+              ? 'mr-auto my-3 flex justify-center items-center'
+              : 'my-3 mr-2 flex justify-center items-center'
           }
         >
           {item.user_id == user.$id && (
@@ -30,9 +30,12 @@ const MessageList = ({ messageList, db_id, collection_id }) => {
               onClick={() => {
                 deleteMessage(db_id, collection_id, item.$id);
                 if (item.fileId) {
-                  storage.deleteFile(import.meta.env.VITE_BUCKET_ID, item.fileId)
+                  storage.deleteFile(
+                    import.meta.env.VITE_BUCKET_ID,
+                    item.fileId
+                  );
                 }
-                setSingleMessageId(item.$id); 
+                setSingleMessageId(item.$id);
               }}
             >
               {deleteSpinner && item.$id == singleMessageId ? (
@@ -55,20 +58,20 @@ const MessageList = ({ messageList, db_id, collection_id }) => {
             <div
               className={
                 item.user_id !== user.$id
-                  ? "bg-[#0d1a21] text-[#f2dee1] w-fit min-w-[10rem] max-w-[15rem] lg:max-w-[20rem] px-5 py-2 rounded-r-2xl rounded-bl-2xl"
-                  : "bg-[#1b3012] text-[#f2dee1] w-fit min-w-[10rem] max-w-[15rem] lg:max-w-[20rem] px-5 py-2 rounded-l-2xl rounded-tr-2xl"
+                  ? 'bg-[#0d1a21] text-[#f2dee1] w-fit min-w-[10rem] max-w-[15rem] lg:max-w-[20rem] px-5 py-2 rounded-r-2xl rounded-bl-2xl'
+                  : 'bg-[#1b3012] text-[#f2dee1] w-fit min-w-[10rem] max-w-[15rem] lg:max-w-[20rem] px-5 py-2 rounded-l-2xl rounded-tr-2xl'
               }
             >
               <p
                 className={
                   item.verified
-                    ? "text-yellow-500 flex justify-start items-center"
-                    : "text-lime-500 flex justify-start items-center"
+                    ? 'text-yellow-500 flex justify-start items-center'
+                    : 'text-lime-500 flex justify-start items-center'
                 }
               >
                 {item.user_id === user.$id ? (
                   <span
-                    className={item.verified ? "text-yellow-500" : "text-white"}
+                    className={item.verified ? 'text-yellow-500' : 'text-white'}
                   >
                     You
                   </span>
@@ -96,11 +99,16 @@ const MessageList = ({ messageList, db_id, collection_id }) => {
               <p className="lg:text-xl">
                 {item.fileId && (
                   <img
-                    src={storage.getFileView(import.meta.env.VITE_BUCKET_ID, item.fileId).href}
+                    src={
+                      storage.getFileView(
+                        import.meta.env.VITE_BUCKET_ID,
+                        item.fileId
+                      ).href
+                    }
                     className="rounded-md"
                   />
                 )}
-                {item.message}{" "}
+                {item.message}{' '}
                 {updateMessageId == item.$id && messageUpdateSpinner && (
                   <Spinner color="gray.800" />
                 )}
@@ -109,8 +117,8 @@ const MessageList = ({ messageList, db_id, collection_id }) => {
             <p
               className={
                 item.user_id != user.$id
-                  ? "text-xs flex justify-start items-center text-gray-500"
-                  : "text-xs flex justify-end items-center text-gray-500"
+                  ? 'text-xs flex justify-start items-center text-gray-500'
+                  : 'text-xs flex justify-end items-center text-gray-500'
               }
             >
               {new Date(item.$createdAt).toLocaleString()}

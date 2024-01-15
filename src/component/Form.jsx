@@ -1,7 +1,7 @@
-import React from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
-import { useAuth } from "../utils/AuthContext";
-import { Spinner } from "@chakra-ui/react";
+import React from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useAuth } from '../utils/AuthContext';
+import { Spinner } from '@chakra-ui/react';
 
 function Form() {
   const { user, login, loginSpinner } = useAuth();
@@ -9,17 +9,17 @@ function Form() {
 
   React.useEffect(() => {
     if (user) {
-      navigate("/");
+      navigate('/');
     }
   }, []);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [input, setInput] = React.useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
-  const message = searchParams.get("message");
+  const message = searchParams.get('message');
   function handleChange(event) {
     const { name, value } = event.target;
     setInput(function (prevstate) {
@@ -38,7 +38,7 @@ function Form() {
       {message && <p>{message}</p>}
       <div className="flex flex-col mobile lg:h-screen justify-center items-center">
         <p className="text-white font-lexend text-xl mb-5">
-          Welcome to Helping Group{" "}
+          Welcome to Helping Group{' '}
           <span className="text-xs text-blue-400 font-mono ml-1 border border-blue-700 px-2 rounded-sm">
             on web
           </span>
@@ -70,7 +70,7 @@ function Form() {
             className="bg-[#1e712d] w-[50%] lg:w-[20%] p-2 rounded-md text-white hover:bg-green-800 disabled:hover:bg-[#1e712d]"
             onClick={handleLogin}
           >
-            {loginSpinner ? <Spinner color="white.500" /> : "Login"}
+            {loginSpinner ? <Spinner color="white.500" /> : 'Login'}
           </button>
         </div>
       </div>

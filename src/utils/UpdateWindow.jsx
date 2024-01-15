@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   useDisclosure,
   Button,
@@ -9,16 +9,16 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
-} from "@chakra-ui/react";
-import { FiEdit2 } from "react-icons/fi";
+} from '@chakra-ui/react';
+import { FiEdit2 } from 'react-icons/fi';
 
 const UpdateWindow = ({ type, handleClick }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [input, setInput] = React.useState({
-    username: "",
-    email: "",
-    password: "",
-    newPassword: "",
+    username: '',
+    email: '',
+    password: '',
+    newPassword: '',
   });
   console.log(input);
   const handleChange = (event) => {
@@ -33,37 +33,37 @@ const UpdateWindow = ({ type, handleClick }) => {
 
   const setDefault = () => {
     setInput({
-      username: "",
-      email: "",
-      password: "",
-      newPassword: "",
+      username: '',
+      email: '',
+      password: '',
+      newPassword: '',
     });
   };
   return (
     <>
       <>
-        {type == "Password" ? (
+        {type == 'Password' ? (
           <Button
             onClick={onOpen}
-            bg={"red.600"}
-            textColor={"white"}
-            _hover={{ bg: "red.500" }}
-            margin={"auto"}
+            bg={'red.600'}
+            textColor={'white'}
+            _hover={{ bg: 'red.500' }}
+            margin={'auto'}
           >
             Change Password
           </Button>
         ) : (
           <Button
             onClick={onOpen}
-            bg={"gray.600"}
-            textColor={"white"}
-            _hover={{ bg: "#0b0405" }}
-            paddingX={"12px"}
-            fontSize={"20px"}
-            lineHeight={"28px"}
-            height={"50px"}
-            borderLeftRadius={"0px"}
-            borderRightRadius={"8px"}
+            bg={'gray.600'}
+            textColor={'white'}
+            _hover={{ bg: '#0b0405' }}
+            paddingX={'12px'}
+            fontSize={'20px'}
+            lineHeight={'28px'}
+            height={'50px'}
+            borderLeftRadius={'0px'}
+            borderRightRadius={'8px'}
           >
             <FiEdit2 />
           </Button>
@@ -72,17 +72,17 @@ const UpdateWindow = ({ type, handleClick }) => {
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent width={"90%"}>
-          <ModalHeader margin={"auto"}>Update {type}</ModalHeader>
-          <ModalCloseButton color={"black"} onClick={setDefault} />
+        <ModalContent width={'90%'}>
+          <ModalHeader margin={'auto'}>Update {type}</ModalHeader>
+          <ModalCloseButton color={'black'} onClick={setDefault} />
           <ModalBody
-            width={"full"}
-            display={"flex"}
-            flexDirection={"column"}
-            justifyContent={"center"}
-            alignItems={"center"}
+            width={'full'}
+            display={'flex'}
+            flexDirection={'column'}
+            justifyContent={'center'}
+            alignItems={'center'}
           >
-            {type == "Username" && (
+            {type == 'Username' && (
               <input
                 value={input.username}
                 name="username"
@@ -92,7 +92,7 @@ const UpdateWindow = ({ type, handleClick }) => {
                 className="p-4 border border-black rounded-xl w-[80%]"
               />
             )}
-            {type == "Email" && (
+            {type == 'Email' && (
               <>
                 <input
                   value={input.email}
@@ -112,7 +112,7 @@ const UpdateWindow = ({ type, handleClick }) => {
                 />
               </>
             )}
-            {type == "Password" && (
+            {type == 'Password' && (
               <>
                 <input
                   value={input.password}
@@ -138,19 +138,19 @@ const UpdateWindow = ({ type, handleClick }) => {
             <Button
               colorScheme="blue"
               onClick={() => {
-                if (type == "Username") {
+                if (type == 'Username') {
                   handleClick(input.username);
                 }
-                if (type == "Email") {
+                if (type == 'Email') {
                   handleClick(input.email, input.password);
                 }
-                if (type == "Password") {
+                if (type == 'Password') {
                   handleClick(input.password, input.newPassword);
                 }
                 setDefault();
                 onClose();
               }}
-              margin={"auto"}
+              margin={'auto'}
             >
               Update
             </Button>

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Modal,
   ModalOverlay,
@@ -9,12 +9,18 @@ import {
   Button,
   useDisclosure,
   Input,
-} from "@chakra-ui/react";
-import { AiFillEdit } from "react-icons/ai";
-import { BsCheckLg } from "react-icons/bs";
-import { useAuth } from "./AuthContext";
+} from '@chakra-ui/react';
+import { AiFillEdit } from 'react-icons/ai';
+import { BsCheckLg } from 'react-icons/bs';
+import { useAuth } from './AuthContext';
 
-const UpdateMessage = ({ db_id, collection_id, id, message, setUpdateMessageId }) => {
+const UpdateMessage = ({
+  db_id,
+  collection_id,
+  id,
+  message,
+  setUpdateMessageId,
+}) => {
   const [newMessage, setNewMessage] = React.useState(message);
 
   const handleChange = (event) => {
@@ -37,13 +43,13 @@ const UpdateMessage = ({ db_id, collection_id, id, message, setUpdateMessageId }
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent bg={"#0d1a21"} width={"90%"} margin={"auto"}>
+        <ModalContent bg={'#0d1a21'} width={'90%'} margin={'auto'}>
           <ModalHeader></ModalHeader>
           {/* <ModalCloseButton color={"white"}/> */}
           <ModalBody
-            display={"flex"}
-            justifyContent={"center"}
-            alignItems={"center"}
+            display={'flex'}
+            justifyContent={'center'}
+            alignItems={'center'}
           >
             {/* <Lorem count={2} /> */}
             <Input
@@ -51,21 +57,21 @@ const UpdateMessage = ({ db_id, collection_id, id, message, setUpdateMessageId }
               onChange={handleChange}
               placeholder="Write your new message...."
               type="text"
-              textColor={"white"}
+              textColor={'white'}
             />
             <BsCheckLg
               className="text-3xl ml-2 text-green-500"
               onClick={() => {
                 updateMessage(db_id, collection_id, id, newMessage);
-                setNewMessage("");
+                setNewMessage('');
                 onClose();
               }}
-              cursor={"pointer"}
+              cursor={'pointer'}
             />
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" margin={"auto"} onClick={onClose}>
+            <Button colorScheme="blue" margin={'auto'} onClick={onClose}>
               Close
             </Button>
           </ModalFooter>
